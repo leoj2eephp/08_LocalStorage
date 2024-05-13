@@ -33,7 +33,7 @@
             <button id="guardar" class="btn btn-primary">Guardar Datos</button>
         </div>
 
-        <table>
+        <table class="table">
             <thead>
                 <tr>
                     <th>NOMBRE</th>
@@ -64,6 +64,26 @@
             localStorage.setItem("ciudad", ciudad.value)
             if (beca.checked) localStorage.setItem("beca", "Sí")
             else localStorage.setItem("beca", "No")
+            // Si dejamos vacío el String de innerHTML de un elemento, lo que vamos a lograr
+            // es borrar TODO el contenido de ese elemento HTML
+            cuerpoTabla.innerHTML = ""
+
+            const fila = document.createElement("tr")
+            cuerpoTabla.appendChild(fila)
+            
+            const tdNom = document.createElement("td")
+            tdNom.innerText = "Juanito"
+            const tdApe = document.createElement("td")
+            tdApe.innerText = "Cisterna"
+            const tdCiu = document.createElement("td")
+            tdCiu.innerText = "Maipú"
+            const tdBeca = document.createElement("td")
+            tdBeca.innerText = "No"
+
+            fila.appendChild(tdNom)
+            fila.appendChild(tdApe)
+            fila.appendChild(tdCiu)
+            fila.appendChild(tdBeca)
         })
     </script>
   </body>
