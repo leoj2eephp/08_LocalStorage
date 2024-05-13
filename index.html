@@ -32,10 +32,39 @@
         <div class="col">
             <button id="guardar" class="btn btn-primary">Guardar Datos</button>
         </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>NOMBRE</th>
+                    <th>APELLIDO</th>
+                    <th>CIUDAD</th>
+                    <th>BECA</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpoTabla">
+                <!-- Agregar la fila por JS -->
+            </tbody>
+        </table>
     </div>
     <!-- EJERCICIO!!
     Tomar todos los datos del formulario y guardarlos en localStorage al pulsar
     el botón guardar -->
-    <script></script>
+    <script>
+        const nombre = document.querySelector("#nombre")
+        const apellido = document.querySelector("#apellido")
+        const ciudad = document.querySelector("#ciudad")
+        const beca = document.querySelector("#beca")
+        const guardar = document.querySelector("#guardar")
+        const cuerpoTabla = document.querySelector("#cuerpoTabla")
+
+        guardar.addEventListener("click", function() {
+            localStorage.setItem("nombre", nombre.value)
+            localStorage.setItem("apellido", apellido.value)
+            localStorage.setItem("ciudad", ciudad.value)
+            if (beca.checked) localStorage.setItem("beca", "Sí")
+            else localStorage.setItem("beca", "No")
+        })
+    </script>
   </body>
 </html>
