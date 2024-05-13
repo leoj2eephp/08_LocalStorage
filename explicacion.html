@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Storage</title>
+</head>
+<body>
+    
+    <script>
+        // con el objeto localStorage podemos simular una BD local.
+        // Para ir guardando valores, usaremos setItem() que espera 2 parámetros:
+        // PARAM1: la clave donde guardaremos el valor (y posteriormente accederemos)
+        // PARAM2: el valor
+        localStorage.setItem("nombre", "Matías")
+        localStorage.setItem("apellido", "Díaz")
+        // Si queremos obtener un valor guardado en el localStorage usaremos getItem()
+        // El único parámetro que espera es el nombre de la clave
+        alert(localStorage.getItem("nombre"))
+    </script>
+</body>
+</html>
