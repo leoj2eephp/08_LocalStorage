@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de objetos</title>
+  </head>
+  <body>
+    <button id="save">Guardar</button>
+    <script>
+      const pokemon = {
+        nombre: "Pikachu",
+        tipo: "Eléctrico",
+        vida: 100,
+        nivel: 1,
+      };
+      const save = document.querySelector("#save");
+      save.addEventListener("click", function () {
+        // No podemos guardar un objeto directamente en localStorage, porque lo va
+        // a transforma en un string con la frase [object Object]
+        // Para solucionar esto, nosotros vamos a transformar a String toda la información
+        // usando JSON.stringify()
+        localStorage.setItem("pikachu", JSON.stringify(pokemon));
+      });
+      // Si hacemos un getItem() de un objeto que fue stringifeado, en realidad NO TENEMOS
+      // un objeto, sino un mega String con el formato del objeto.. así que tenemos que
+      // destransformarlo usando JSON.parse()
+      const datos = JSON.parse(localStorage.getItem("pikachu"));
+      if (datos != null) console.log(datos.nombre);
+    </script>
+  </body>
+</html>
