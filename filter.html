@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FILTER</title>
+</head>
+<body>
+    
+    <script>
+        const frutitas = ["Durazno", "Manzana", "Pera", "Membrillo", "Mora"]
+        const frutitas2 = [
+            {nombre: "Durazno", precio: 2500},
+            {nombre: "Manzana", precio: 1000},
+            {nombre: "Pera", precio: 1200},
+            {nombre: "Membrillo", precio: 1800},
+            {nombre: "Mora", precio: 5000},
+        ]
+        // FILTER RETORNA un arreglo de datos, siempre que esos datos cumplan la condición
+        // que se le dará entre paréntesis.
+        // FILTER internamente recorre todos los objetos de la lista (como un foreach)
+        // Lo primero que tienes que pasarle por paréntesis es el nombre de la variable
+        // que va a absorber el valor de cada elemento de la lista.
+        // Después pondremos una "función de flecha".
+        // Finalmente, al lado derecho de la función de flecha pondremos una condición.
+        // RECUERDA que esta condición sirve para indicar si se descartará o no el elemento del resultado.
+        // Si la condición da TRUE, se agrega el elemento al resultado.
+        // Si la condición da FALSE, NO se agregará el elemento al arreglo de resultado.
+        const resultado = frutitas2.filter(fruta => fruta.precio <= 1200)
+        // El siguiente bloque de código hace EXACTAMENTE LO MISMO que el filter anterior.
+        const resultado2 = []
+        frutitas2.forEach(fruta => {
+            if (fruta.precio <= 1200) {
+                resultado2.push(fruta)
+            }
+        });
+        console.log(resultado)
+        console.log(resultado2)
+    </script>
+</body>
+</html>

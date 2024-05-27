@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Form Pokemones</title>
     <link
       rel="stylesheet"
@@ -11,50 +11,166 @@
       crossorigin="anonymous"
     />
   </head>
-</head>
-<body>
+  <body>
     <div class="container">
-        <div class="col mb-2">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" class="form-control">
-        </div>
-        <div class="col mb-2">
-            <label for="tipo">Tipo</label>
-            <select id="tipo" class="form-select">
-                <option value="-1">NO SELECCIONADO</option>
-            </select>
-        </div>
-        <div class="col mb-2">
-            <label for="nivel">Nivel</label>
-            <input type="number" id="nivel" class="form-control">
-        </div>
-        <div class="col mb-2">
-            <label for="shiny">Shiny</label>
-            <input type="checkbox" id="shiny">
-        </div>
-        <div class="col mt-5">
-            <button class="btn btn-primary">GUARDAR</button>
-        </div>
+      <div class="col mb-2">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" class="form-control" />
+      </div>
+      <div class="col mb-2">
+        <label for="tipo">Tipo</label>
+        <select id="tipo" class="form-select">
+          <option value="-1">NO SELECCIONADO</option>
+        </select>
+      </div>
+      <div class="col mb-2">
+        <label for="nivel">Nivel</label>
+        <input type="number" id="nivel" class="form-control" />
+      </div>
+      <div class="col mb-2">
+        <label for="shiny">Shiny</label>
+        <input type="checkbox" id="shiny" />
+      </div>
+      <div class="col mt-5">
+        <button class="btn btn-primary" id="save">GUARDAR</button>
+      </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Tipo</th>
-                    <th>Nivel</th>
-                    <th>Shiny</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Hacer el cuerpo de la tabla en JS -->
-            </tbody>
-        </table>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Nivel</th>
+            <th>Shiny</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <!-- Hacer el cuerpo de la tabla en JS -->
+        </tbody>
+      </table>
     </div>
 
     <script>
-    // Cada vez que se pulse Guardar, se creará un objeto pokemon y se agregará a una lista
-    // Esta lista debe ser guardada en localStorage.
-    // Además, la tabla debe cargar según los datos que se obtenga de getItem() del localStorage
+      // Cada vez que se pulse Guardar, se creará un objeto pokemon y se agregará a una lista
+      // Esta lista debe ser guardada en localStorage.
+      // Además, la tabla debe cargar según los datos que se obtenga de getItem() del localStorage
+      const nombre = document.querySelector("#nombre");
+      const tipo = document.querySelector("#tipo");
+      const nivel = document.querySelector("#nivel");
+      const shiny = document.querySelector("#shiny");
+      const save = document.querySelector("#save");
+      const tbody = document.querySelector("#tbody");
+      const tipos = ["Eléctrico", "Agua", "Tierra", "Fuego"];
+      // datos será igual a:
+      // - si viene información en pokemones, la información de la lista de pokemones.
+      // - si viene nula la lista de pokemones, será igual a un arreglo vacío.
+      const datos =
+        localStorage.getItem("pokemones") != null
+          ? JSON.parse(localStorage.getItem("pokemones"))
+          : [];
+      cargarSelect();
+      cargarTabla();
+
+      save.addEventListener("click", function () {
+        const estadoValidacion = validarVacios();
+        if (estadoValidacion) {
+          // IF corto - operador ternario. Sirve para resumir un if de una línea.
+          // El siguiente código comentado está siendo reemplazado por una simple línea.
+          /* var color = "";
+          if (shiny.checked == true) {
+            color = "Vari Color";
+          } else {
+            color = "Normal";
+          } */
+          // Aquí estamos indicando que color será igual a "Vari Color" siempre que shiny.checked esté en true
+          // Si shiny.checked no es true, entonces color será igual a lo que está después del :
+          const color = shiny.checked == true ? "Vari Color" : "Normal";
+          const pokemon = {
+            nombre: nombre.value,
+            tipo: tipo.value,
+            nivel: nivel.value,
+            shiny: color,
+          };
+          datos.push(pokemon);
+          localStorage.setItem("pokemones", JSON.stringify(datos));
+          cargarTabla();
+          limpiarDatos();
+        } else {
+          alert("Deben llenarse todos los campos primero.");
+        }
+      });
+
+      function limpiarDatos() {
+        nombre.value = "";
+        nivel.value = "";
+        tipo.value = -1;
+        shiny.checked = false;
+      }
+
+      function validarVacios() {
+        if (nombre.value == "") return false;
+        if (tipo.value == -1) return false;
+        if (nivel.value == "" || nivel.value < 1) return false;
+        return true;
+      }
+
+      function cargarSelect() {
+        tipos.forEach((t) => {
+          const option = document.createElement("option");
+          option.value = t;
+          option.innerHTML = t;
+          tipo.appendChild(option);
+        });
+      }
+
+      function cargarTabla() {
+        tbody.innerHTML = "";
+        const datosLS = JSON.parse(localStorage.getItem("pokemones"));
+        if (datosLS) {
+          datosLS.forEach((poke) => {
+            const tr = document.createElement("tr");
+            tbody.appendChild(tr);
+
+            const tdNom = document.createElement("td");
+            tdNom.innerText = poke.nombre;
+            const tdTipo = document.createElement("td");
+            tdTipo.innerText = poke.tipo;
+            const tdNivel = document.createElement("td");
+            tdNivel.innerText = poke.nivel;
+            const tdShiny = document.createElement("td");
+            tdShiny.innerText = poke.shiny;
+            const tdAcciones = document.createElement("td");
+            const btnEliminar = document.createElement("button")
+            btnEliminar.innerText = "Eliminar"
+            btnEliminar.className = "btn btn-danger"
+            tdAcciones.appendChild(btnEliminar)
+
+            tr.appendChild(tdNom);
+            tr.appendChild(tdTipo);
+            tr.appendChild(tdNivel);
+            tr.appendChild(tdShiny);
+            tr.appendChild(tdAcciones);
+            
+            btnEliminar.addEventListener("click", function() {
+              tbody.removeChild(tr)
+              // Eliminar un elemento de la lista de objetos que tiene el localStorage es imposible.
+              // Lo que podemos hacer es buscar otras formas de simular la eliminación singular de datos de la lista.
+              // Una forma sería reemplazar toda la lista pokemones por una que NO contenga el elemento eliminado.
+              // En otras palabras, quitar el pokemon de la lista datos, y reemplazar el item pokemones
+              // con la nueva lista datos.
+              // const datosModificados = datos.filter(pokemon => pokemon.nombre != poke.nombre)
+              const datosModificados = [];
+              datos.forEach(pokemon => {
+                if (pokemon.nombre != poke.nombre) {
+                  datosModificados.push(poke)
+                }
+              });
+              localStorage.setItem("pokemones", JSON.stringify(datosModificados))
+            })
+          });
+        }
+      }
     </script>
-</body>
+  </body>
 </html>
